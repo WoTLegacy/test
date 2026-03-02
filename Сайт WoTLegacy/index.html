@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>World of Tanks</title>
+    <style>
+        /* Базовые сбросы */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        /* Видео на весь экран */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        /* Затемнение */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+        
+        /* Контейнер с контентом */
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* ЛОГОТИП ИЗ ФАЙЛА */
+        .logo {
+            max-width: 600px;
+            width: 90%;
+            margin-bottom: 50px;
+            animation: fadeInDown 1.5s ease;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* ПРЯМОУГОЛЬНАЯ КНОПКА С ТЕКСТУРОЙ */
+        .wot-button {
+            display: inline-block;
+            width: 280px;
+            height: 90px;
+            
+            /* Текстура из файла */
+            background-image: url('button-texture.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: #5a4a2e;
+            background-blend-mode: multiply;
+            
+            border: 2px solid #7a6a4e;
+            border-radius: 10px;  /* Прямоугольная с чуть скругленными углами */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-indent: -9999px;  /* Прячет текст */
+        }
+        
+        /* Эффект при наведении */
+        .wot-button:hover {
+            transform: scale(1.05);
+            border-color: #9a8a6e;
+            background-blend-mode: soft-light;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Эффект при нажатии */
+        .wot-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Блик на кнопке */
+        .wot-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        
+        /* Анимации */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shine {
+            0% { left: -50%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 400px;
+                margin-bottom: 30px;
+            }
+            .wot-button {
+                width: 220px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновое видео -->
+    <video id="bg-video" autoplay loop muted playsinline>
+        <source src="wot-background.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+    
+    <!-- Затемнение -->
+    <div class="overlay"></div>
+    
+    <!-- Основной контент -->
+    <div class="content">
+        
+        <!-- ЛОГОТИП -->
+        <div class="logo">
+            <img src="wot-logo.png" alt="World of Tanks">
+        </div>
+        
+        <!-- ПРЯМОУГОЛЬНАЯ КНОПКА -->
+        <div class="wot-button" 
+             onclick="window.location.href='https://t.me/wot070';"
+             onmouseenter="enableSound()">
+        </div>
+        
+    </div>
+
+    <script>
+        const video = document.getElementById('bg-video');
+        let soundEnabled = false;
+        
+        function enableSound() {
+            if (!soundEnabled) {
+                video.muted = false;
+                video.play();
+                soundEnabled = true;
+                console.log('Звук включен при наведении на кнопку');
+            }
+        }
+        
+        video.play().catch(e => console.log('Видео запущено без звука'));
+        
+        // Запасной вариант
+        document.body.addEventListener('click', function() {
+            if (!soundEnabled) {
+                video.muted = false;
+                video.play();
+                soundEnabled = true;
+            }
+        }, { once: true });
+        
+    </script>
+    
+</body>
+</html>
