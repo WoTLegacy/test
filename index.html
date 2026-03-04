@@ -29,36 +29,99 @@
             z-index: -1;
         }
         
-        /* Затемнение */
-        .overlay {
+        /* ВЕРХНЯЯ ЧЕРНАЯ ПОЛОСА */
+        .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 0;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #333;
+            border-top: 2px solid #333;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 8px 20px;
+            border-radius: 30px;
+            text-transform: uppercase;
+        }
+        
+        /* КНОПКА TANKI PLAY (теперь как все, без желтого) */
+        .tanki-play {
+            background: transparent;
+            color: white;
+            border: none;
+        }
+        
+        /* НИЖНЯЯ ЧЕРНАЯ ПОЛОСА */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bottom-text {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        
+        .bottom-text-small {
+            font-size: 0.9rem;
+            color: #aaa;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
         
         /* Контейнер с контентом */
         .content {
-            position: relative;
-            z-index: 1;
-            height: 100vh;
+            position: fixed;
+            top: 74px;
+            bottom: 104px;
+            left: 0;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
+            justify-content: center;
             padding: 20px;
+            z-index: 1;
         }
         
-        /* ЛОГОТИП ИЗ ФАЙЛА */
+        /* ЛОГОТИП */
         .logo {
             max-width: 600px;
             width: 90%;
-            margin-bottom: 50px;
-            animation: fadeInDown 1.5s ease;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
         }
         
         .logo img {
@@ -67,91 +130,51 @@
             display: block;
         }
         
-        /* ПРЯМОУГОЛЬНАЯ КНОПКА С ТЕКСТУРОЙ */
+        /* КНОПКА В БОЙ! (ОСВЕТЛЕННАЯ) */
         .wot-button {
             display: inline-block;
             width: 280px;
             height: 90px;
-            
-            /* Текстура из файла */
             background-image: url('button-texture.jpg');
             background-size: cover;
             background-position: center;
-            background-color: #5a4a2e;
+            background-color: #8a7a5e;  /* Осветленный цвет */
             background-blend-mode: multiply;
-            
-            border: 2px solid #7a6a4e;
-            border-radius: 10px;  /* Прямоугольная с чуть скругленными углами */
+            border: 2px solid #aaa;  /* Светло-серая рамка */
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 2s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            text-indent: -9999px;  /* Прячет текст */
+            text-indent: -9999px;
+            opacity: 0.9;  /* Немного прозрачности для осветления */
         }
-        
-        /* Эффект при наведении */
-        .wot-button:hover {
-            transform: scale(1.05);
-            border-color: #9a8a6e;
-            background-blend-mode: soft-light;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        /* Эффект при нажатии */
-        .wot-button:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Блик на кнопке */
-        .wot-button::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            transform: rotate(45deg);
-            animation: shine 4s infinite;
-        }
-        
-        /* Анимации */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes shine {
-            0% { left: -50%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
-        }
-        
+
+        /* Адаптация для мобильных */
         @media (max-width: 768px) {
+            .top-bar {
+                height: 60px;
+                gap: 10px;
+                padding: 0 10px;
+            }
+            
+            .top-bar a {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+            
+            .content {
+                top: 64px;
+                bottom: 84px;
+            }
+            
+            .bottom-bar {
+                height: 80px;
+            }
+            
             .logo {
                 max-width: 400px;
                 margin-bottom: 30px;
             }
+            
             .wot-button {
                 width: 220px;
                 height: 70px;
@@ -164,13 +187,16 @@
     <!-- Фоновое видео -->
     <video id="bg-video" autoplay loop muted playsinline>
         <source src="wot-background.mp4" type="video/mp4">
-        Ваш браузер не поддерживает видео.
     </video>
     
-    <!-- Затемнение -->
-    <div class="overlay"></div>
+    <!-- ВЕРХНЯЯ ЧЕРНАЯ ПОЛОСА -->
+    <div class="top-bar">
+        <a href="news.html">НОВОСТИ</a>
+        <a href="about.html">ОБ ИГРЕ</a>
+        <a href="https://playhop.com/ru/app/276147" class="tanki-play" target="_blank">TANKI PLAY</a>
+    </div>
     
-    <!-- Основной контент -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div class="content">
         
         <!-- ЛОГОТИП -->
@@ -178,30 +204,34 @@
             <img src="wot-logo.png" alt="World of Tanks">
         </div>
         
-        <!-- ПРЯМОУГОЛЬНАЯ КНОПКА -->
-        <div class="wot-button" 
-             onclick="window.location.href='https://t.me/wot070';"
-             onmouseenter="enableSound()">
+        <!-- КНОПКА В БОЙ! (ОСВЕТЛЕННАЯ) -->
+        <div class="wot-button"
+            onclick="window.location.href='https://t.me/wot070';"
+            onmouseenter="enableSound()">
         </div>
         
+    </div>
+    
+    <!-- НИЖНЯЯ ЧЕРНАЯ ПОЛОСА -->
+    <div class="bottom-bar">
+        <div class="bottom-text">Technology by Unity</div>
+        <div class="bottom-text-small">WOT LEGACY</div>
     </div>
 
     <script>
         const video = document.getElementById('bg-video');
         let soundEnabled = false;
-        
+
         function enableSound() {
             if (!soundEnabled) {
                 video.muted = false;
                 video.play();
                 soundEnabled = true;
-                console.log('Звук включен при наведении на кнопку');
             }
         }
-        
-        video.play().catch(e => console.log('Видео запущено без звука'));
-        
-        // Запасной вариант
+
+        video.play().catch(e => console.log('Видео без звука'));
+
         document.body.addEventListener('click', function() {
             if (!soundEnabled) {
                 video.muted = false;
@@ -209,8 +239,7 @@
                 soundEnabled = true;
             }
         }, { once: true });
-        
     </script>
-    
+
 </body>
 </html>
